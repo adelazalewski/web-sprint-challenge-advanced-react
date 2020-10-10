@@ -1,16 +1,16 @@
 import React, { useState } from "react";
 import { BrowserRouter as Router, Route, NavLink } from "react-router-dom";
-
+import {useDarkMode} from "./hooks/useDarkMode";
 import PlantList from "./components/PlantList";
 import ShoppingCart from "./components/ShoppingCart";
 import CheckoutForm from "./components/CheckoutForm";
-
+import NavBarDiv from "./components/darkModeDiv";
 import "./App.css";
 
 function App() {
   // array of plants that have been added to the cart
   const [cart, setCart] = useState([]);
-const [addedToCart, setAddedToCart] = useState([]);
+  const [darkMode, setDarkMode] = useDarkMode("adelaskeySPRINT1unit32020", false);
   // add a plant to the cart
   const addToCart = (plant) => {
     setCart([...cart, plant]);
@@ -22,12 +22,13 @@ const [addedToCart, setAddedToCart] = useState([]);
   };
 
   return (
-    <div>
+    <div className={darkMode? "dark-mode" : null}>
       <Router>
         <nav className="container">
           <h1>
             React Plants <span aria-label="life emoji" role="img">🌿</span>
           </h1>
+          <NavBarDiv darkMode={darkMode}  setDarkMode={setDarkMode}/>
           <ul className="steps">
             <li>
               <NavLink exact to="/">
@@ -47,7 +48,7 @@ const [addedToCart, setAddedToCart] = useState([]);
         <Route
           exact
           path="/"
-          render={() => <PlantList addedToCart={addedToCart} addToCart={addToCart} />}
+          render={() => <PlantList addToCart={addToCart} />}
         />
         <Route
           path="/cart"

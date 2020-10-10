@@ -24,7 +24,7 @@ componentDidMount(){
    })
    .catch((err) => console.log("fetching data from server err: ",err))
 }
-
+//STRETCH 1
 removePlant(plant) {
   this.props.addToCart(plant);
   this.setState({...this.state, plants: this.state.plants.filter(p => plant.id !== p.id)})
