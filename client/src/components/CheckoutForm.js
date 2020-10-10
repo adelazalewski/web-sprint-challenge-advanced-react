@@ -26,11 +26,11 @@ const CheckoutForm = (props) => {
   //   e.preventDefault();
   //   setShowSuccessMessage(true);
   // };
-
+console.log(showSuccessMessage);
   return (
     <>
       <form onSubmit={handleSubmit}>
-        <h2 data-testid="header">Checkout Form</h2>
+        <h2>Checkout Form</h2>
         <label>
           First Name:
           <input

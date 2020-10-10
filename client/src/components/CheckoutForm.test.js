@@ -10,14 +10,29 @@ test("form header renders", () => {
     expect(formHeader).toBeInTheDocument(); //passes
 });
 
-test("form shows success message on submit with form details", async() => {
-    render(<CheckoutForm />)
-const successMessage = await screen.findByTestId("successMessage");
- expect(successMessage).toHaveTextContent("You have ordered some plants! Woo-hoo!");
 
-//the form can be submited - passed
-// const button = screen.getByRole("button", {name: /checkout/i});
-// fireEvent.click(button);
-// const successMessage = await screen.getByText(/you have ordered/i);
-// expect(successMessage).toBeInTheDocument();
-});
+test("fillout form and submit", async() => {
+    render(<CheckoutForm />);
+const firstName = screen.getByLabelText(/first name/i);
+const lastName = screen.getByLabelText(/last name/i);
+const address = screen.getByLabelText(/address/i);
+const city = screen.getByLabelText(/city/i);
+const state = screen.getByLabelText(/state/i);
+const zipCode = screen.getByLabelText(/zip/i);
+
+fireEvent.change(firstName, {target: { value: "adela"}});
+fireEvent.change(lastName, {target: { value: "zalewski"}});
+fireEvent.change(address, {target: { value: "123csdfsg"}});
+fireEvent.change(city, {target: { value: "lasalle"}});
+fireEvent.change(state, {target: { value: "michigan"}});
+fireEvent.change(zipCode, {target: { value: "12345"}});
+
+expect(firstName).toHaveValue("adela"); //broke this code on purpose so testing workes properly
+
+const button = screen.getByRole("button", {name: /checkout/i});
+fireEvent.click(button);
+//after filling out the fom the state changed to true in my terminal and then when grabbing and checking for the seccess message the test passed
+
+const successMessage = await screen.getByText(/you have ordered/i);
+expect(successMessage).toBeInTheDocument();
+})
