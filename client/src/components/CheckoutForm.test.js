@@ -13,6 +13,9 @@ test("form header renders", () => {
 
 test("fillout form and submit", async() => {
     render(<CheckoutForm />);
+
+
+    
 const firstName = screen.getByLabelText(/first name/i);
 const lastName = screen.getByLabelText(/last name/i);
 const address = screen.getByLabelText(/address/i);

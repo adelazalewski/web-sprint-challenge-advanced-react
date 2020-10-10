@@ -6,9 +6,11 @@ export default class PlantList extends Component {
   constructor(){
     super();
     this.state = {
-      plants: []
+      plants: [],
+  
     }
   }
+//remove plant from the list once added to cart
 
   // when the component mounts:
   //   - fetch data from the server endpoint - http://localhost:3333/plants
@@ -21,6 +23,11 @@ componentDidMount(){
      this.setState({...this.state, plants: res.data.plantsData})
    })
    .catch((err) => console.log("fetching data from server err: ",err))
+}
+
+removePlant(plant) {
+  this.props.addToCart(plant);
+  this.setState({...this.state, plants: this.state.plants.filter(p => plant.id !== p.id)})
 }
   /*********  DON'T CHANGE ANYTHING IN THE RENDER FUNCTION *********/
   render() {
@@ -40,10 +47,12 @@ componentDidMount(){
               </div>
               <button
                 className="plant-button"
-                onClick={() => this.props.addToCart(plant)}
+                onClick={() => this.removePlant(plant)}
               >
                 Add to cart
               </button>
+              
+              
             </div>
           </div>
         ))}
