@@ -3,11 +3,32 @@ import axios from "axios";
 
 export default class PlantList extends Component {
   // add state with a property called "plants" - initialize as an empty array
+  constructor(){
+    super();
+    this.state = {
+      plants: [],
+  
+    }
+  }
+//remove plant from the list once added to cart
 
   // when the component mounts:
   //   - fetch data from the server endpoint - http://localhost:3333/plants
   //   - set the returned plants array to this.state.plants
-
+componentDidMount(){
+  axios
+   .get("http://localhost:3333/plants")
+   .then((res) => {
+     console.log(res);
+     this.setState({...this.state, plants: res.data.plantsData})
+   })
+   .catch((err) => console.log("fetching data from server err: ",err))
+}
+//STRETCH 1
+removePlant(plant) {
+  this.props.addToCart(plant);
+  this.setState({...this.state, plants: this.state.plants.filter(p => plant.id !== p.id)})
+}
   /*********  DON'T CHANGE ANYTHING IN THE RENDER FUNCTION *********/
   render() {
     return (
@@ -26,10 +47,12 @@ export default class PlantList extends Component {
               </div>
               <button
                 className="plant-button"
-                onClick={() => this.props.addToCart(plant)}
+                onClick={() => this.removePlant(plant)}
               >
                 Add to cart
               </button>
+              
+              
             </div>
           </div>
         ))}
